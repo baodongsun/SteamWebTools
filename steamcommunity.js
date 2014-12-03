@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @include https://steamcommunity.com/id/*
 // @include http://steamcommunity.com/id/*
 // @include https://steamcommunity.com/profiles/*
@@ -7,10 +7,18 @@
 
 
 (function(){
-var $, steamid;
+  
+var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2], steamid;
+// [en,ru,cn][langNo]
+switch(steamLanguage){
+    case 'russian' : langNo = 1; break;
+    case 'schinese' : langNo = 2; break;
+    case 'tchinese' : langNo = 2; break;
+    default : langNo = 0;
+}
+
 function init(){
 
-	$ = window.$J;
 	if (window.g_rgProfileData) {
 		profileNewPageInit();
 	}
@@ -30,7 +38,7 @@ function init(){
 }
 
 function pendingGiftInit(){
-	$('#tabcontent_pendinggifts > .pending_gifts_header:first-child').after('<div style="margin: 0px 0px 24px"><a class="btn_darkblue_white_innerfade btn_medium" href="#" onClick="acceptAllGifts();"><span>Сложить все в инвентарь</span></a></div>');
+	$('#tabcontent_pendinggifts > .pending_gifts_header:first-child').after('<div style="margin: 0px 0px 24px"><a class="btn_darkblue_white_innerfade btn_medium" href="#" onClick="acceptAllGifts();"><span>' + ['Accept all gifts','Сложить все в инвентарь','接受所有礼物'][langNo] + '</span></a></div>');
 	window.acceptAllGifts = function() {
 		var giftHolderz = $('div[id^=unpacked_gift_]');
 		var gifts = Array();
@@ -52,7 +60,7 @@ function gamecardsPageInit(){
 }
 
 function badgesPageInit(){
-	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>Показать с невыпавшими картами</span></div>');
+	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>' + ['showWithDrop','Показать с невыпавшими картами','显示剩余掉落'][langNo] + '</span></div>');
 	window.showWithDrop=function(){
 		$('.badge_row').filter(function(i,el){
 			return !($('a.btn_green_white_innerfade',el).length)
@@ -73,27 +81,27 @@ function SetRepBadges(selector){
 
 	var badges = {
 		0:{
-			text : 'неизвестен',
+			text : ['unknown','неизвестен','未知'][langNo],
 			color : '606060'
 		},
 		1:{
-			text : 'гарант',
+			text : ['гарант todo','гарант','保证'][langNo], '',
 			color : '5E931B'
 		},
 		2:{
-			text : 'в белом списке',
+			text : ['white-listed','в белом списке','在白名单'][langNo],
 			color : '247E9E'
 		},
 		3:{
-			text : 'в черном списке',
+			text : ['black-listed','в черном списке','在黑名单'][langNo], '',
 			color : '9E2424'
 		},
 		4:{
-			text : 'подозрительный',
+			text : ['suspicious','подозрительный','可疑'][langNo],
 			color : 'B47200'
 		},
 		error:{
-			text : 'Error',
+			text : ['Error','Error','错误'][langNo],
 			color : '606060'
 		}
 	};
@@ -168,7 +176,7 @@ function inventoryPageInit(){
 				});
 				return;
 			} else
-				str += 'не известно';
+				str += ['unknow','не известно','未知'][langNo];
 		} else {
 			str += '<a href="http://steamdb.info/sub/'+subid+'">'+subid+'</a>';
 			if(f) {
@@ -203,7 +211,7 @@ function inventoryPageInit(){
 		} else {
 			var amount = 1;
 			if(item._amount>1) {
-				amount =  parseInt(prompt('Сколько выбрать? из '+item._amount, item._amount)) || 1;
+				amount =  parseInt(prompt(['Сколько выбрать? из todo ','Сколько выбрать? из ','选择数量, 最大'][langNo] + item._amount, item._amount)) || 1;
 				if (amount>item._amount)
 					amount=item._amount;
 			}
@@ -263,7 +271,7 @@ function inventoryPageInit(){
 					item.descriptions = [];
 
 				item.descriptions.push({value:'ClassID = '+item.classid});
-				item.descriptions.push({type: 'html', value:'<a href="#" onclick="getSubid(event.target,\''+item.id+'\');return false">Получить SubscriptionID</a>'});
+				item.descriptions.push({type: 'html', value:'<a href="#" onclick="getSubid(event.target,\''+item.id+'\');return false">' + ['get','Получить','获取'][langNo] + ' SubscriptionID</a>'});
 
 				if(!ajaxTarget.descriptions[item.classid])
 					ajaxTarget.descriptions[item.classid] = item.descriptions;
@@ -272,15 +280,15 @@ function inventoryPageInit(){
 				if(item.owner_actions) {
 					item.owner_actions.push({
 						link:'javascript:checkForSend("%assetid%")',
-						name:'Выбрать для отправки'
+						name:['Выбрать для отправки todo','Выбрать для отправки','选择批量发送'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:sendChecked()',
-						name:'Отправить выбранные'
+						name:['Отправить выбранные todo','Отправить выбранные','发送所选的'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:loadGiftNote()',
-						name:'Посмотреть заметку'
+						name:['loadGiftNote','Посмотреть','loadGiftNote todo'][langNo]
 					});
 				}
 			}
@@ -312,7 +320,7 @@ function inventoryPageInit(){
 				return res;
 			}
 			var market_hash_name = item.market_hash_name ? item.market_hash_name : item.market_name;
-			elActions.appendChild(window.CreateMarketActionButton('blue', 'http://steamcommunity.com/market/listings/'+item.appid+'/'+market_hash_name, 'Мин цена на маркете: <span id="swt_lowestItemPrice_'+item.classid+'">?</span>'));
+			elActions.appendChild(window.CreateMarketActionButton('blue', 'http://steamcommunity.com/market/listings/'+item.appid+'/'+market_hash_name, ['Мин цена на маркете todo','Мин цена на маркете','迷你商店的价格'][langNo] + ': <span id="swt_lowestItemPrice_'+item.classid+'">?</span>'));
 			$(elActions).css('display', 'block');
 			$.ajax( {
 				url: 'http://steamcommunity.com/market/priceoverview/',
@@ -405,7 +413,7 @@ function inventoryPageInit(){
 	}
 
 
-	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>Прятать дубликаты, показывая кол-во';
+	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>' + ['hideDupItems','Прятать дубликаты, показывая кол-во','隐藏重复的物品'][langNo];
 	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLHideDup);
 
 	window.onchangehidedup = function(e){
@@ -431,7 +439,7 @@ function inventoryPageInit(){
 			window.$('market_sell_dialog_ok').stopObserving();
 			$('#market_sell_dialog_ok').unbind();
 			if(count>1) {
-				var amount =  parseInt(prompt('Сколько продавать? из '+count, count)) || 1;
+				var amount =  parseInt(prompt(['Сколько продавать? из ','Сколько продавать? из ','出售数量,最大 '][langNo] + count, count)) || 1;
 				if (amount>count)
 					amount=count;
 
@@ -463,7 +471,7 @@ function inventoryPageInit(){
 							crossDomain: true,
 							xhrFields: { withCredentials: true }
 						} ).done( function ( data ) {
-							$('#market_sell_dialog_item_availability_hint>.market_dialog_topwarning').text('Выставлен №'+window.SellItemDialog._itemNum);
+							$('#market_sell_dialog_item_availability_hint>.market_dialog_topwarning').text(['Выставлен №','Выставлен №','Выставлен № todo'][langNo] + window.SellItemDialog._itemNum);
 							if(window.SellItemDialog._itemNum>=window.SellItemDialog._amount)
 								window.SellItemDialog.OnSuccess( { responseJSON: data } );
 							else {
@@ -502,12 +510,12 @@ function profileNewPageInit(){
 		{
 			href: 'http://forums.steamrep.com/search/search?keywords='+steamid,
 			icon: 'http://steamrep.com/favicon.ico',
-			text: 'Искать на форумах SteamRep.com',
+			text: ['Search in SteamRep.com','Искать на форумах SteamRep.com','在SteamRep.com上搜索'][langNo],
 		},
 		{
 			href: 'http://forums.sourceop.com/search.php?do=process&query='+steamid,
 			icon: 'http://forums.sourceop.com/favicon.ico',
-			text: 'Искать на форумах SourceOP.com',
+			text: ['Search in SourceOP.com','Искать на форумах SourceOP.com','在SourceOP.com上搜索'][langNo],
 		},
 		{
 			href: 'http://www.steamtrades.com/user/id/'+steamid,
@@ -607,7 +615,7 @@ function profileNewPageInit(){
 			);
 			window.setTimeout(function(){Modal.AdjustSizing();},1);
 		}).fail(function(){
-			$('#swtexinfo').html('Request Error / Ошибка при получении данных')
+			$('#swtexinfo').html(['Request Error','Ошибка при получении данных','错误请求'][langNo])
 		});
 	};
 
