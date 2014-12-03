@@ -251,7 +251,7 @@ function inventoryPageInit(){
 	window.loadGiftNote = function(){
 		var gid = window.g_ActiveInventory.selectedItem.id;
 		if(!$('#iteminfo'+window.iActiveSelectView+'_item_tags_content textarea.giftnote').length)
-			$('#iteminfo'+window.iActiveSelectView+'_item_tags_content').append('<br/><textarea class="giftnote" style="width:100%">'+(giftsNotes[gid]||'')+'</textarea><button onclick="saveGiftNote(\''+gid+'\')">Save</button>');
+			$('#iteminfo'+window.iActiveSelectView+'_item_tags_content').append('<br/><textarea class="giftnote" style="width:100%">'+(giftsNotes[gid]||'')+'</textarea><button onclick="saveGiftNote(\''+gid+'\')">' + ['Save','Сохранить','保存'][langNo] + '</button>');
 	}
 	window.saveGiftNote = function(gid){
 		giftsNotes[gid]=$('#iteminfo'+window.iActiveSelectView+'_content textarea.giftnote').val();
@@ -288,7 +288,7 @@ function inventoryPageInit(){
 					});
 					item.owner_actions.push({
 						link:'javascript:loadGiftNote()',
-						name:['loadGiftNote','Посмотреть','loadGiftNote todo'][langNo]
+						name:['load Gift Note','Посмотреть','礼物备忘记录'][langNo]
 					});
 				}
 			}
