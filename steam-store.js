@@ -81,7 +81,7 @@ function init() {
 
 				$.get( reqUrl, function( transport ) {
 						var s='';
-
+console.dir(transport);
 						if(transport.responseJSON[itemId].success){
 							var data = transport.responseJSON[itemId].data;
 							var price = data.price_overview || data.price;
