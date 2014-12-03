@@ -36,15 +36,16 @@ function init() {
 <div class="popup_body popup_menu shadow_content" id="cc_list"></div></div>\
 	<div class="popup_block_new" id="cc_list_edit" style="display:none;">\
 	<div class="popup_body popup_menu shadow_content">\
-	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a href="javascript:;" id="cc_okbtn">' + ['save','Сохранить','保存'][langNo] + '</a> <a href="javascript:;" id="cc_defbtn">' + ['default','По умолчанию','默认'][langNo] + '</a> <a href="javascript:;" id="cc_cancelbtn">' + ['cancel','отменить','取消'][langNo] + '</a>\
-	</div></div>';
+	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a href="javascript:;" id="cc_savebtn">[' + ['save','Сохранить','保存'][langNo] + ']</a> <a href="javascript:;" id="cc_defbtn">[' + ['default','По умолчанию','默认'][langNo] + ']</a> <a href="javascript:;" id="cc_cancelbtn">[' + ['cancel','отменить','取消'][langNo] + ']</a>\
+	</div></div>'
 
 		global_action_menu.insertAdjacentHTML('afterBegin', changeCCmenuHTML);
 
 		_cc.updHTMLccList(curCC);
 
 		document.getElementById('cc_defbtn').onclick = _cc.setDefCcList;
-		document.getElementById('cc_okbtn' ).onclick = _cc.saveNewList;
+		document.getElementById('cc_savebtn' ).onclick = _cc.saveNewList;
+		document.getElementById('cc_okbtn' ).onclick = function(){ HideMenu('cc_cancelbtn','cc_list_edit'); };
 	}
 
 	// for app/sub page
@@ -187,7 +188,7 @@ _cc = {
 		_cc.curList=document.getElementById('ccListEdit').value;
 		window.localStorage.ccList=_cc.curList;
 		_cc.updHTMLccList();
-        HideMenu('cc_cancelbtn','cc_list_edit');
+        HideMenu('cc_savebtn','cc_list_edit');
 		return false;
 	},
 	setDefCcList : function(){
