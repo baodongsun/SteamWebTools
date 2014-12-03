@@ -26,8 +26,8 @@ function init() {
 	var global_action_menu = document.getElementById('global_action_menu');
 	if(global_action_menu) {
 		var curCC = false;
-		if(curCC = document.cookie.match(/fakeCC=(\w+?);/i)){
-			curCC = curCC[1];
+		if(curCC = document.cookie.match(/(^|\s)fakeCC=([^;]*)(;|$)/)){
+			curCC = curCC[2];
 		}
 		var changeCCmenuHTML = '\
 		<style>#cc_menu_btn{min-width:59px;padding:0 15px;z-index:999;background-color:#000;opacity:0.5;}#cc_menu_btn:hover{opacity:1}#cc_list .popup_menu_item{white-space:nowrap}</style>\
@@ -81,7 +81,7 @@ function init() {
 
 				$.get( reqUrl, function( transport ) {
 						var s='';
-console.log(transport);
+
 						if(transport[itemId].success){
 							var data = transport[itemId].data;
 							var price = data.price_overview || data.price;
@@ -176,7 +176,7 @@ _cc = {
 		for(var i=0; i < _cc.ListA.length; i++){
 			s += '<a class="popup_menu_item" href="'+_cc.url+_cc.ListA[i]+'"><img src="http://cdn.steamcommunity.com/public/images/countryflags/'+_cc.ListA[i]+'.gif" style="width:16px"/> '+_cc.ListA[i].toUpperCase()+'</a>';
 		}
-		s += '<a class="popup_menu_item" title="' + ['Edit','Редактировать','编辑'] + '" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/></a>';
+		s += '<a class="popup_menu_item" title="' + ['Edit','Редактировать','编辑'][langNo] + '" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/></a>';
 		document.getElementById('cc_list').innerHTML=s;
 		if (curCC)
 			_cc.curCC=curCC
