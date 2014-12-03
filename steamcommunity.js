@@ -520,51 +520,51 @@ function profileNewPageInit(){
 		{
 			href: 'http://www.steamtrades.com/user/id/'+steamid,
 			icon: 'http://www.steamtrades.com/favicon.ico',
-			text: 'Отзывы на SteamTrades.com',
+			text: ['Отзывы на SteamTrades.com','Искать на форумах SourceOP.com','到SourceOP.com查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://backpack.tf/profiles/'+steamid,
 			icon: 'http://backpack.tf/favicon_440.ico',
-			text: 'Инвентарь Backpack.tf',
+			text: ['Инвентарь Backpack.tf','Инвентарь Backpack.tf','到Backpack.tf查看'][langNo],
 		},
 		{
 			href: 'http://tf2b.com/tf2/'+steamid,
 			icon: 'http://tf2b.com/favicon.ico',
-			text: 'Инвентарь TF2B.com',
+			text: ['Инвентарь TF2B.com','Инвентарь TF2B.com','到TF2B.com查看'][langNo],
 		},
 		{
 			href: 'http://tf2outpost.com/backpack/'+steamid,
 			icon: 'http://cdn.tf2outpost.com/img/favicon_440.ico',
-			text: 'Инвентарь TF2OutPost.com',
+			text: ['Инвентарь TF2OutPost.com','Инвентарь TF2OutPost.com','到TF2OutPost查看背包'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://tf2outpost.com/user/'+steamid,
 			icon: 'http://cdn.tf2outpost.com/img/favicon_440.ico',
-			text: 'Трэйды на TF2OutPost.com',
+			text: ['Трэйды на TF2OutPost.com','Трэйды на TF2OutPost.com','TF2OutPost.com交易'][langNo],
 		},
 		{
 			href: 'http://dota2lounge.com/profile?id='+steamid,
 			icon: 'http://dota2lounge.com/favicon.ico',
-			text: 'Трэйды на Dota2Lounge.com',
+			text: ['Трэйды на Dota2Lounge.com','Трэйды на Dota2Lounge.com','到Dota2Lounge.com查看'][langNo],
 		},
 		{
 			href: 'http://csgolounge.com/profile?id='+steamid,
 			icon: 'http://csgolounge.com/favicon.ico',
-			text: 'Трэйды на CSGOLounge.com',
+			text: ['Трэйды на CSGOLounge.com','Трэйды на CSGOLounge.com','到CSGOLounge.com查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://steammoney.com/trade/user/'+steamid,
 			icon: 'http://steammoney.com/favicon.ico',
-			text: 'Инвентарь SteamMoney.com',
+			text: ['Инвентарь SteamMoney.com','Инвентарь SteamMoney.com','到SteamMoney.com查看'][langNo],
 		},
 		{
 			id:   'inv_spub',
 			href: 'http://steampub.ru/user/'+steamid,
 			icon: 'http://steampub.ru/favicon.ico',
-			text: 'Профиль на SteamPub.ru',
+			text: ['Профиль на SteamPub.ru','Профиль на SteamPub.ru','到SteamPub.ru查看'][langNo],
 		},
 		{hr:true}
 
@@ -577,7 +577,7 @@ function profileNewPageInit(){
 	);
 
 
-	$('.profile_header').append('<div id="swt_info"><span id="permlink"> SteamID64: <a href="http://steamcommunity.com/profiles/'+steamid+'">'+steamid+'</a> </span> <a href="#getMoreInfo" onclick="getMoreInfo();return false">Get more info</a></div>');
+	$('.profile_header').append('<div id="swt_info"><span id="permlink"> SteamID64: <a href="http://steamcommunity.com/profiles/'+steamid+'">'+steamid+'</a> </span> <a href="#getMoreInfo" onclick="getMoreInfo();return false">' + ['Get more info','Get more info','获取更多信息'][langNo] + '</a></div>');
 
 
 	SetRepBadges('#permlink');
