@@ -45,7 +45,10 @@ function init() {
 
 		document.getElementById('cc_defbtn').onclick = _cc.setDefCcList;
 		document.getElementById('cc_savebtn').onclick = _cc.saveNewList;
-		document.getElementById('cc_cancelbtn').onclick = function(){ HideMenu('cc_cancelbtn','cc_list_edit'); };
+		document.getElementById('cc_cancelbtn').onclick = function(){
+			HideMenu('cc_cancelbtn','cc_list_edit');
+			HideMenu("cc_cancelbtn","cc_menu");
+		};
 	}
 
 	// for app/sub page
@@ -188,7 +191,8 @@ _cc = {
 		_cc.curList=document.getElementById('ccListEdit').value;
 		window.localStorage.ccList=_cc.curList;
 		_cc.updHTMLccList();
-        HideMenu('cc_savebtn','cc_list_edit');
+        	HideMenu('cc_savebtn','cc_list_edit');
+        	HideMenu("cc_savebtn","cc_menu");
 		return false;
 	},
 	setDefCcList : function(){
