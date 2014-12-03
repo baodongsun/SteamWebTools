@@ -1,9 +1,18 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @include https://store.steampowered.com/*
 // @include http://store.steampowered.com/*
 // ==/UserScript==
 
 (function(){
+  
+var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
+// [en,ru,cn][langNo]
+switch(steamLanguage){
+    case 'russian' : langNo = 1;
+    case 'schinese' : langNo = 2;
+    case 'tchinese' : langNo = 2;
+    default : langNo = 0;
+}
 
 function init() {
 
@@ -53,8 +62,8 @@ function init() {
 			subid = el.value;
 			el = el.parentElement.parentElement
 			el.insertAdjacentHTML('beforeEnd', '<div>Subscription id = <a href="http://steamdb.info/sub/'+subid+'">'+subid+'</a></div>');
-			tmp = window.$J('<div><a onclick="getPrices(event, \''+itemType+'\', '+itemId+');return false" href="#getPrices">Получить цены для других стран</a></div>');
-			el = window.$J(el).append(tmp);
+			tmp = $('<div><a onclick="getPrices(event, \''+itemType+'\', '+itemId+');return false" href="#getPrices">' + ['get the prices of other countries','Получить цены для других стран','获取其他国家的价格'][langNo] + '</a></div>');
+			el = $(el).append(tmp);
 			subs.push({subid:subid,el:tmp[0]});
 		}
 
@@ -70,9 +79,7 @@ function init() {
 
 				reqUrl += itemId+'&cc='+cc;
 
-				new window.Ajax.Request( reqUrl, {
-					method: 'get',
-					onSuccess: function( transport ) {
+				$.get( reqUrl, function( transport ) {
 						var s='';
 
 						if(transport.responseJSON[itemId].success){
@@ -102,12 +109,12 @@ function init() {
 						}
 						document.querySelector('.swt_price_0_'+cc+'>span').innerHTML = s;
 					}
-				});
+				);
 			}
 
 
 			for(var k=0; k < subs.length; k++) {
-				var str = 'Цены для других стран:';
+				var str = ['get the prices of other countries','Цены для других стран:','获取其他国家的价格'][langNo];
 				for(var i=0; i < _cc.ListA.length; i++){
 					str += '<div class="swt_price_'+k+'_'+_cc.ListA[i]+'"><a href="?cc='+_cc.ListA[i]+'"><img src="http://cdn.steamcommunity.com/public/images/countryflags/'+_cc.ListA[i]+'.gif" style="width:16px"/> '+_cc.ListA[i].toUpperCase()+'</a> <span>...</span></div>';
 
@@ -137,21 +144,25 @@ function init() {
 
 
 		links = [
-			{href:'http://steamdb.info/'+itemType+'/'+itemId+'/', icon:'http://steamdb.info/favicon.ico', text:'Посмотреть в SteamDB.info'},
-			{href:'http://steamgamesales.com/'+itemType+'/'+itemId, icon:'http://steamgamesales.com/favicon.ico', text:'Посмотреть на SteamGameSales.com'},
-			{href:'http://www.steamprices.com/'+_cc.curCC.toLowerCase()+'/'+itemType+'/'+itemId, icon:'http://www.steamprices.com/favicon.png', text:'Посмотреть на SteamPrices.com'},
-			{href:'http://plati.ru/asp/find.asp?agent=111350&searchstr='+gamename, icon:'http://plati.ru/favicon.ico', text:'Искать на Plati.ru'},
-			{href:'http://steampub.ru/search/'+gamename, icon:'http://steampub.ru/favicon.ico', text:'Искать на SteamPub.ru'},
+			{href:'http://steamdb.info/'+itemType+'/'+itemId+'/', icon:'http://steamdb.info/favicon.ico', text:['View in SteamDB.info','Посмотреть в SteamDB.info','在SteamDB.info上查看'][langNo]},
+			{href:'http://steamgamesales.com/'+itemType+'/'+itemId, icon:'http://steamgamesales.com/favicon.ico', text:['Take a look at SteamGameSales.com','Посмотреть на SteamGameSales.com','到SteamGameSales.com上看看'][langNo]},
+			{href:'http://www.steamprices.com/'+_cc.curCC.toLowerCase()+'/'+itemType+'/'+itemId, icon:'http://www.steamprices.com/favicon.ico', text:['Take a look at SteamPrices.com','Посмотреть на SteamPrices.com','到SteamPrices.com上看看'][langNo]},
+			{href:'http://plati.ru/asp/find.asp?agent=111350&searchstr='+gamename, icon:'http://plati.ru/favicon.ico', text:['Search in Plati.ru','Искать на Plati.ru','在Plati.ru上搜索'][langNo]},
+			{href:'http://steampub.ru/search/'+gamename, icon:'http://steampub.ru/favicon.ico', text:['Search in SteamPub.ru','Искать на SteamPub.ru','在SteamPub.ru上搜索'][langNo]},
 		];
 
 		if(itemType=='app'){
-			links.push({href:'http://steamcommunity.com/my/gamecards/'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:'Посмотреть мои карты этой игры'})
+			links.push(
+				{href:'http://steamcommunity.com/my/gamecards/'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards from this Game','Посмотреть мои карты этой игры','查看此游戏的卡片'][langNo]},
+				{href:'http://www.steamcardexchange.net/index.php?gamepage-appid-'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards in Steamcardexchange.net','View Gamecards in Steamcardexchange.net','在Steamcardexchange.net上查看卡片'][langNo]},
+				
+			)
 		}
 
 		el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
 
 	} else {
-		window.$J('a.linkbar[href^="http://store.steampowered.com/search/?specials=1"]').after('<a class="linkbar" href="http://steamdb.info/sales/">All Specials - SteamDB.Info</a>');
+		$('a.linkbar[href^="http://store.steampowered.com/search/?specials=1"]').after('<a class="linkbar" href="http://steamdb.info/sales/">' + ['All Specials','All Specials','所有特惠'][langNo] + ' - SteamDB.Info</a>');
 	}
 
 
@@ -166,7 +177,7 @@ _cc = {
 		for(var i=0; i < _cc.ListA.length; i++){
 			s += '<a class="popup_menu_item" href="'+_cc.url+_cc.ListA[i]+'"><img src="http://cdn.steamcommunity.com/public/images/countryflags/'+_cc.ListA[i]+'.gif" style="width:16px"/> '+_cc.ListA[i].toUpperCase()+'</a>';
 		}
-		s += '<a class="popup_menu_item" title="Редактировать" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/></a>';
+		s += '<a class="popup_menu_item" title="' + ['Edit','Редактировать','编辑'] + '" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/></a>';
 		document.getElementById('cc_list').innerHTML=s;
 		if (curCC)
 			_cc.curCC=curCC
