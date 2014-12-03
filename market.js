@@ -1,9 +1,18 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @include http://steamcommunity.com/market*
 // ==/UserScript==
 
 
 (function(){
+  
+var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
+// [en,ru,cn][langNo]
+switch(steamLanguage){
+    case 'russian' : langNo = 1; break;
+    case 'schinese' : langNo = 2; break;
+    case 'tchinese' : langNo = 2; break;
+    default : langNo = 0;
+}
 
 function init(){
 
@@ -30,7 +39,7 @@ function mainPage(){
 
 	//// Remove button
 	// add
-	var el = document.querySelector('#tabContentsMyListings .market_home_listing_table:nth-child(1) .market_listing_edit_buttons').innerHTML='<a href="#checkAllListings" id="btnCheckAllListings" class="item_market_action_button item_market_action_button_blue"><span class="item_market_action_button_edge item_market_action_button_left"></span><span class="item_market_action_button_contents">Выбрать все</span><span class="item_market_action_button_edge item_market_action_button_right"></span></a> <a href="#removeListings" id="btnRemoveListings" class="item_market_action_button item_market_action_button_green"><span class="item_market_action_button_edge item_market_action_button_left"></span><span class="item_market_action_button_contents">Удалить выбранные</span><span class="item_market_action_button_edge item_market_action_button_right"></span></a>';
+	var el = document.querySelector('#tabContentsMyListings .market_home_listing_table:nth-child(1) .market_listing_edit_buttons').innerHTML='<a href="#checkAllListings" id="btnCheckAllListings" class="item_market_action_button item_market_action_button_blue"><span class="item_market_action_button_edge item_market_action_button_left"></span><span class="item_market_action_button_contents">' + ['Select All','Выбрать все','全选'][langNo] + '</span><span class="item_market_action_button_edge item_market_action_button_right"></span></a> <a href="#removeListings" id="btnRemoveListings" class="item_market_action_button item_market_action_button_green"><span class="item_market_action_button_edge item_market_action_button_left"></span><span class="item_market_action_button_contents">' + ['Remove selected items','Удалить выбранные','移除选中的物品'][langNo] + '</span><span class="item_market_action_button_edge item_market_action_button_right"></span></a>';
 
 	// set function
 	window.$J('#btnCheckAllListings').click(function(){
