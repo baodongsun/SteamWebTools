@@ -19,7 +19,7 @@ function init() {
 
 	links = [
 		{href:'javascript:document.cookie=\'shoppingCartGID=0; path=/\';location.href=\'/cart/\';', text:['Empty Cart','Очистить Корзину','清空购物车'][langNo]},
-		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:['Fastbuy with Steam wallet','Быстро купить в инвентарь со Steam Wallet','快速用steam钱包购买'][langNo]},
+		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:['Fastbuy with Steam wallet','Быстро купить в инвентарь со Steam Wallet','使用steam钱包快速购买'][langNo]},
 	];
 
 	el && el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
