@@ -34,7 +34,7 @@ function init() {
 			str+='<p>'+gifts[x]+' <span id="giftN'+i+'"></span></p>';
 			i++;
 		}
-		el.innerHTML='<p><b>' ['Гифты для отправки: ','Гифты для отправки: ','Гифты для отправки: '][langNo] + gids.length+'</b></p>'+str+'';
+		el.innerHTML='<p><b>' + ['Гифты для отправки: ','Гифты для отправки: ','Гифты для отправки: '][langNo] + gids.length+'</b></p>'+str+'';
 
 		window.$('email_input').insertAdjacentHTML("afterEnd",
 			'<br/><br/>' + [
