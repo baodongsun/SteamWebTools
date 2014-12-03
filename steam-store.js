@@ -81,9 +81,9 @@ function init() {
 
 				$.get( reqUrl, function( transport ) {
 						var s='';
-console.dir(transport);
-						if(transport.responseJSON[itemId].success){
-							var data = transport.responseJSON[itemId].data;
+console.log(transport);
+						if(transport[itemId].success){
+							var data = transport[itemId].data;
 							var price = data.price_overview || data.price;
 
 							if(price.discount_percent>0){
