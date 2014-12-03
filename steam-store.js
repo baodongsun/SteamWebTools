@@ -36,7 +36,7 @@ function init() {
 <div class="popup_body popup_menu shadow_content" id="cc_list"></div></div>\
 	<div class="popup_block_new" id="cc_list_edit" style="display:none;">\
 	<div class="popup_body popup_menu shadow_content">\
-	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a title="OK" href="#" id="cc_okbtn">[OK]</a> <a title="Default" href="#" id="cc_defbtn">[D]</a>\
+	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a href="javascript:;" id="cc_okbtn">' + ['save','Сохранить','保存'][langNo] + '</a> <a href="javascript:;" id="cc_defbtn">' + ['default','По умолчанию','默认'][langNo] + '</a> <a href="javascript:;" id="cc_cancelbtn">' + ['cancel','отменить','取消'][langNo] + '</a>\
 	</div></div>';
 
 		global_action_menu.insertAdjacentHTML('afterBegin', changeCCmenuHTML);
@@ -62,7 +62,7 @@ function init() {
 			subid = el.value;
 			el = el.parentElement.parentElement
 			el.insertAdjacentHTML('beforeEnd', '<div>Subscription id = <a href="http://steamdb.info/sub/'+subid+'">'+subid+'</a></div>');
-			tmp = $('<div><a onclick="getPrices(event, \''+itemType+'\', '+itemId+');return false" href="#getPrices">' + ['get the prices of other countries','Получить цены для других стран','获取其他国家的价格'][langNo] + '</a></div>');
+			tmp = $('<div><a onclick="getPrices(event, \''+itemType+'\', '+itemId+');return false" href="#getPrices">' + ['get the prices of the other countries','Получить цены для других стран','获取其他国家的价格'][langNo] + '</a></div>');
 			el = $(el).append(tmp);
 			subs.push({subid:subid,el:tmp[0]});
 		}
@@ -114,7 +114,7 @@ function init() {
 
 
 			for(var k=0; k < subs.length; k++) {
-				var str = ['get the prices of other countries','Цены для других стран:','获取其他国家的价格'][langNo];
+				var str = ['get the prices of the other countries','Цены для других стран:','获取其他国家的价格'][langNo];
 				for(var i=0; i < _cc.ListA.length; i++){
 					str += '<div class="swt_price_'+k+'_'+_cc.ListA[i]+'"><a href="?cc='+_cc.ListA[i]+'"><img src="http://cdn.steamcommunity.com/public/images/countryflags/'+_cc.ListA[i]+'.gif" style="width:16px"/> '+_cc.ListA[i].toUpperCase()+'</a> <span>...</span></div>';
 
@@ -124,8 +124,8 @@ function init() {
 			for(var i=0; i < _cc.ListA.length; i++){
 				getPrice(_cc.ListA[i]);
 			}
-			setTimeout(function(){getPrice(_cc.curCC)}, 3500);
-
+            //console.log(_cc.curCC);
+			//setTimeout(function(){getPrice(_cc.curCC)}, 3500);
 
 			return false;
 		}
@@ -168,7 +168,7 @@ function init() {
 };
 
 _cc = {
-	defList : 'ru ua us ar fr no gb au br de jp',
+	defList : 'cn ru ua us fr no gb au br de jp',
 	curCC : false,
 	updHTMLccList : function(curCC){
 		var s='';
@@ -176,7 +176,7 @@ _cc = {
 		for(var i=0; i < _cc.ListA.length; i++){
 			s += '<a class="popup_menu_item" href="'+_cc.url+_cc.ListA[i]+'"><img src="http://cdn.steamcommunity.com/public/images/countryflags/'+_cc.ListA[i]+'.gif" style="width:16px"/> '+_cc.ListA[i].toUpperCase()+'</a>';
 		}
-		s += '<a class="popup_menu_item" title="' + ['Edit','Редактировать','编辑'][langNo] + '" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/></a>';
+		s += '<a class="popup_menu_item" href="#" onclick="ShowMenu(this, \'cc_list_edit\', \'right\', \'bottom\', true);return false"><img src="http://cdn.steamcommunity.com/public/images/skin_1/iconEdit.gif" style="width:16px"/>' + ['Edit','Редактировать','编辑'][langNo] + '</a>';
 		document.getElementById('cc_list').innerHTML=s;
 		if (curCC)
 			_cc.curCC=curCC
@@ -187,6 +187,7 @@ _cc = {
 		_cc.curList=document.getElementById('ccListEdit').value;
 		window.localStorage.ccList=_cc.curList;
 		_cc.updHTMLccList();
+        HideMenu('cc_cancelbtn','cc_list_edit');
 		return false;
 	},
 	setDefCcList : function(){
