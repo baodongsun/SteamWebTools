@@ -85,7 +85,7 @@ function SetRepBadges(selector){
 			color : '606060'
 		},
 		1:{
-			text : ['гарант todo','гарант','保证'][langNo], '',
+			text : ['гарант todo','гарант','保证'][langNo],
 			color : '5E931B'
 		},
 		2:{
@@ -93,7 +93,7 @@ function SetRepBadges(selector){
 			color : '247E9E'
 		},
 		3:{
-			text : ['black-listed','в черном списке','在黑名单'][langNo], '',
+			text : ['black-listed','в черном списке','在黑名单'][langNo],
 			color : '9E2424'
 		},
 		4:{
