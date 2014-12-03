@@ -1,22 +1,28 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @include http://store.steampowered.com/cart*
 // @include https://store.steampowered.com/cart*
 // ==/UserScript==
 
 (function(){
+  
+var langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
+// [en,ru,cn][langNo]
+switch(steamLanguage){
+    case 'russian' : langNo = 1;
+    case 'schinese' : langNo = 2;
+    case 'tchinese' : langNo = 2;
+    default : langNo = 0;
+}
 
 function init() {
-
-	var $ = window.$J; // jQuery
-
-	var el = document.querySelector('.page_content > .rightcol');
+	var $ = window.jQuery, el = document.querySelector('.page_content > .rightcol');
 
 	links = [
-		{href:'javascript:document.cookie=\'shoppingCartGID=0; path=/\';location.href=\'/cart/\';', text:'Очистить Корзину'},
-		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:'Быстро купить в инвентарь со Steam Wallet'},
+		{href:'javascript:document.cookie=\'shoppingCartGID=0; path=/\';location.href=\'/cart/\';', text:['Empty Cart','Очистить Корзину','清空购物车'][langNo]},
+		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:['Fastbuy with Steam wallet','Быстро купить в инвентарь со Steam Wallet','快速用steam钱包购买'][langNo]},
 	];
 
-	el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
+	el && el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
 
 	$('#addtocartsubids').bind('submit',function(){
 		var t = $(this);
@@ -43,7 +49,7 @@ function createBlock(title, links){
 </div>'+link.text+'</a><br />'
 	}
 
-	out+='</div></div></div>';
+	out += ['Add SubID to cart','Добавить SubID\'ы в корзину','添加SubID到购物车'][langNo] + ': <form id="addtocartsubids" method="post"><input type="hidden" name="sessionid" value="'+decodeURIComponent(document.cookie.match(/(^|\s)sessionid=([^;]*)(;|$)/)[2])+'"><input type="hidden" name="action" value="add_to_cart"><input type="text" name="subids" placeholder="1, 2, 3"/><input type="submit" value="' + ['Add','Добавить','添加'][langNo] + '"></form></div></div></div>';
 
 	return out;
 }
