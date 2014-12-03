@@ -4,6 +4,15 @@
 // ==/UserScript==
 
 (function(){
+  
+var langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
+// [en,ru,cn][langNo]
+switch(steamLanguage){
+    case 'russian' : langNo = 1; break;
+    case 'schinese' : langNo = 2; break;
+    case 'tchinese' : langNo = 2; break;
+    default : langNo = 0;
+}
 
 function init() {
 	var divs = document.querySelectorAll('.friend_block.disabled');
@@ -25,10 +34,14 @@ function init() {
 			str+='<p>'+gifts[x]+' <span id="giftN'+i+'"></span></p>';
 			i++;
 		}
-		el.innerHTML='<p><b>Гифты для отправки: '+gids.length+'</b></p>'+str+'';
+		el.innerHTML='<p><b>' ['Гифты для отправки: ','Гифты для отправки: ','Гифты для отправки: '][langNo] + gids.length+'</b></p>'+str+'';
 
 		window.$('email_input').insertAdjacentHTML("afterEnd",
-			'<br/><br/>Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес<br/><textarea id="emails" rows=3></textarea>'
+			'<br/><br/>' + [
+				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
+				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
+				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес'
+			][langNo] + '<br/><textarea id="emails" rows=3></textarea>'
 		);
 
 		var curGift = 0, emails=[];
@@ -55,7 +68,7 @@ function init() {
 		var OnSendGiftSuccess_old = window.OnSendGiftSuccess;
 		window.OnSendGiftSuccess = function(){
 
-			window.$('giftN'+curGift).innerHTML='- Отправлен';
+			window.$('giftN'+curGift).innerHTML=['- send','- Отправлен','- 发送'][langNo];
 
 			if(window.g_gidGift = gids[++curGift]){
 				if(emails.length>1){
