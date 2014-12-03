@@ -36,7 +36,7 @@ function init() {
 <div class="popup_body popup_menu shadow_content" id="cc_list"></div></div>\
 	<div class="popup_block_new" id="cc_list_edit" style="display:none;">\
 	<div class="popup_body popup_menu shadow_content">\
-	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a href="javascript:;" id="cc_savebtn">[' + ['save','Сохранить','保存'][langNo] + ']</a> <a href="javascript:;" id="cc_defbtn">[' + ['default','По умолчанию','默认'][langNo] + ']</a> <a href="javascript:;" id="cc_cancelbtn">[' + ['cancel','отменить','取消'][langNo] + ']</a>\
+	<input id="ccListEdit" type="text" value="'+_cc.curList+'"/><br/><a href="javascript:;" id="cc_savebtn">[' + ['save','Сохранить','保存'][langNo] + ']</a> <a href="javascript:;" id="cc_defbtn">[' + ['default','дефолт','默认'][langNo] + ']</a> <a href="javascript:;" id="cc_cancelbtn">[' + ['cancel','отменить','取消'][langNo] + ']</a>\
 	</div></div>'
 
 		global_action_menu.insertAdjacentHTML('afterBegin', changeCCmenuHTML);
