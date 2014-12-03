@@ -280,11 +280,11 @@ function inventoryPageInit(){
 				if(item.owner_actions) {
 					item.owner_actions.push({
 						link:'javascript:checkForSend("%assetid%")',
-						name:['Выбрать для отправки todo','Выбрать для отправки','选择批量发送'][langNo]
+						name:['Выбрать для отправки todo','Выбрать для отправки','选中当前礼物'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:sendChecked()',
-						name:['Отправить выбранные todo','Отправить выбранные','发送所选的'][langNo]
+						name:['Отправить выбранные todo','Отправить выбранные','发送所有当前选中的礼物'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:loadGiftNote()',
