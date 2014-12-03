@@ -154,8 +154,7 @@ function init() {
 		if(itemType=='app'){
 			links.push(
 				{href:'http://steamcommunity.com/my/gamecards/'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards from this Game','Посмотреть мои карты этой игры','查看此游戏的卡片'][langNo]},
-				{href:'http://www.steamcardexchange.net/index.php?gamepage-appid-'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards in Steamcardexchange.net','View Gamecards in Steamcardexchange.net','在Steamcardexchange.net上查看卡片'][langNo]},
-				
+				{href:'http://www.steamcardexchange.net/index.php?gamepage-appid-'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards in Steamcardexchange.net','View Gamecards in Steamcardexchange.net','在Steamcardexchange.net上查看卡片'][langNo]}
 			)
 		}
 
