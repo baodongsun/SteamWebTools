@@ -8,9 +8,9 @@
 var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
 // [en,ru,cn][langNo]
 switch(steamLanguage){
-    case 'russian' : langNo = 1;
-    case 'schinese' : langNo = 2;
-    case 'tchinese' : langNo = 2;
+    case 'russian' : langNo = 1; break;
+    case 'schinese' : langNo = 2; break;
+    case 'tchinese' : langNo = 2; break;
     default : langNo = 0;
 }
 
