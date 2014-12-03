@@ -44,8 +44,8 @@ function init() {
 		_cc.updHTMLccList(curCC);
 
 		document.getElementById('cc_defbtn').onclick = _cc.setDefCcList;
-		document.getElementById('cc_savebtn' ).onclick = _cc.saveNewList;
-		document.getElementById('cc_okbtn' ).onclick = function(){ HideMenu('cc_cancelbtn','cc_list_edit'); };
+		document.getElementById('cc_savebtn').onclick = _cc.saveNewList;
+		document.getElementById('cc_cancelbtn').onclick = function(){ HideMenu('cc_cancelbtn','cc_list_edit'); };
 	}
 
 	// for app/sub page
