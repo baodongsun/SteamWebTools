@@ -34,13 +34,13 @@ function init() {
 			str+='<p>'+gifts[x]+' <span id="giftN'+i+'"></span></p>';
 			i++;
 		}
-		el.innerHTML='<p><b>' + ['Гamount : ','Гифты для отправки: ','发送的礼物数量: '][langNo] + gids.length+'</b></p>'+str+'';
+		el.innerHTML='<p><b>' + ['the amount of the gifts : ','Гифты для отправки: ','发送的礼物数量: '][langNo] + gids.length+'</b></p>'+str+'';
 
 		window.$('email_input').insertAdjacentHTML("afterEnd",
 			'<br/><br/>' + [
+				'It is available to input more than one email address, one email per row, if the number of the gifts is not more than the number of email, the gifts will be sent in order, otherwise the extra gifts will be sent to the last email address',
 				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
-				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
-				'可以输入多行邮件地址: 如果要发送礼物对应邮件地址低于每行一个, 礼物将按顺序发送; 如果礼物数量超过邮件地址数量，剩余的礼物将被发送到最后一行的邮件地址.'
+				'可以输入多个邮件地址, 每个一行, 如果要发送的礼物对应邮件地址低于每行一个, 礼物将按顺序被发送, 如果礼物数量超过邮件地址数量，超出的礼物将被发送到最后一个邮件地址.'
 			][langNo] + '<br/><textarea id="emails" rows=3></textarea>'
 		);
 
