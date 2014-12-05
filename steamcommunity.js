@@ -18,6 +18,7 @@ switch(steamLanguage && steamLanguage[2]){
     case 'traditional chinese' : langNo = 2; break; 
     default : langNo = 0;
 }
+
 function init(){
 
 	if (window.g_rgProfileData) {
@@ -321,7 +322,7 @@ function inventoryPageInit(){
 				return res;
 			}
 			var market_hash_name = item.market_hash_name ? item.market_hash_name : item.market_name;
-			elActions.appendChild(window.CreateMarketActionButton('blue', 'http://steamcommunity.com/market/listings/'+item.appid+'/'+market_hash_name, ['Мин цена на маркете todo','Мин цена на маркете','迷你商店的价格'][langNo] + ': <span id="swt_lowestItemPrice_'+item.classid+'">?</span>'));
+			elActions.appendChild(window.CreateMarketActionButton('blue', 'http://steamcommunity.com/market/listings/'+item.appid+'/'+market_hash_name, ['Minimum Price on the Steam Market','Мин цена на маркете','Steam市场最低价'][langNo] + ': <span id="swt_lowestItemPrice_'+item.classid+'">?</span>'));
 			$(elActions).css('display', 'block');
 			$.ajax( {
 				url: 'http://steamcommunity.com/market/priceoverview/',
