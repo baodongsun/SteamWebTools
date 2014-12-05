@@ -5,7 +5,7 @@
 
 (function(){
   
-var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
+var langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|window.$)/);
 // [en,ru,cn][langNo]
 switch(steamLanguage && steamLanguage[2]){
     case 'russian' : langNo = 1; break;
@@ -38,7 +38,7 @@ function init() {
 		}
 		el.innerHTML='<p><b>' + ['the amount of the gifts : ','Гифты для отправки: ','发送的礼物数量: '][langNo] + gids.length+'</b></p>'+str+'';
 
-		$('email_input').insertAdjacentHTML("afterEnd",
+		window.$('email_input').insertAdjacentHTML("afterEnd",
 			'<br/><br/>' + [
 				'It is available to input more than one email address, one email per row, if the number of the gifts is not more than the number of email, the gifts will be sent in order, otherwise the extra gifts will be sent to the last email address',
 				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
@@ -51,16 +51,16 @@ function init() {
 
 		var SubmitGiftDeliveryForm_old = window.SubmitGiftDeliveryForm;
 		window.SubmitGiftDeliveryForm = function(){
-			if (!$('send_via_email').checked)
+			if (!window.$('send_via_email').checked)
 				return SubmitGiftDeliveryForm_old.apply(this, arguments);
 
-			if (!$('emails').value)
+			if (!window.$('emails').value)
 				return SubmitGiftDeliveryForm_old.apply(this, arguments);
 
-			emails = $('emails').value.split(/\r?\n/);
+			emails = window.$('emails').value.split(/\r?\n/);
 
 			if(emails.length){
-				$('email_input').value = emails[0];
+				window.$('email_input').value = emails[0];
 			}
 
 			return SubmitGiftDeliveryForm_old.apply(this, arguments);
@@ -70,11 +70,11 @@ function init() {
 		var OnSendGiftSuccess_old = window.OnSendGiftSuccess;
 		window.OnSendGiftSuccess = function(){
 
-			$('giftN'+curGift).innerHTML=['- send','- Отправлен','- 发送'][langNo];
+			window.$('giftN'+curGift).innerHTML=['- send','- Отправлен','- 发送'][langNo];
 
 			if(window.g_gidGift = gids[++curGift]){
 				if(emails.length>1){
-					$('email_input').value = emails[Math.min(curGift, (emails.length-1))]
+					window.$('email_input').value = emails[Math.min(curGift, (emails.length-1))]
 				}
 
 				window.SendGift();
