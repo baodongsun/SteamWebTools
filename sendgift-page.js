@@ -38,7 +38,7 @@ function init() {
 		}
 		el.innerHTML='<p><b>' + ['the amount of the gifts : ','Гифты для отправки: ','发送的礼物数量: '][langNo] + gids.length+'</b></p>'+str+'';
 
-		window.$('email_input').insertAdjacentHTML("afterEnd",
+		$('email_input').insertAdjacentHTML("afterEnd",
 			'<br/><br/>' + [
 				'It is available to input more than one email address, one email per row, if the number of the gifts is not more than the number of email, the gifts will be sent in order, otherwise the extra gifts will be sent to the last email address',
 				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
@@ -51,16 +51,16 @@ function init() {
 
 		var SubmitGiftDeliveryForm_old = window.SubmitGiftDeliveryForm;
 		window.SubmitGiftDeliveryForm = function(){
-			if (!window.$('send_via_email').checked)
+			if (!$('send_via_email').checked)
 				return SubmitGiftDeliveryForm_old.apply(this, arguments);
 
-			if (!window.$('emails').value)
+			if (!$('emails').value)
 				return SubmitGiftDeliveryForm_old.apply(this, arguments);
 
-			emails = window.$('emails').value.split(/\r?\n/);
+			emails = $('emails').value.split(/\r?\n/);
 
 			if(emails.length){
-				window.$('email_input').value = emails[0];
+				$('email_input').value = emails[0];
 			}
 
 			return SubmitGiftDeliveryForm_old.apply(this, arguments);
@@ -70,11 +70,11 @@ function init() {
 		var OnSendGiftSuccess_old = window.OnSendGiftSuccess;
 		window.OnSendGiftSuccess = function(){
 
-			window.$('giftN'+curGift).innerHTML=['- send','- Отправлен','- 发送'][langNo];
+			$('giftN'+curGift).innerHTML=['- send','- Отправлен','- 发送'][langNo];
 
 			if(window.g_gidGift = gids[++curGift]){
 				if(emails.length>1){
-					window.$('email_input').value = emails[Math.min(curGift, (emails.length-1))]
+					$('email_input').value = emails[Math.min(curGift, (emails.length-1))]
 				}
 
 				window.SendGift();

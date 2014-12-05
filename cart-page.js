@@ -17,7 +17,7 @@ switch(steamLanguage && steamLanguage[2]){
 }
 
 function init() {
-	var $ = window.jQuery, el = document.querySelector('.page_content > .rightcol');
+	var el = document.querySelector('.page_content > .rightcol');
 
 	links = [
 		{href:'javascript:document.cookie=\'shoppingCartGID=0; path=/\';location.href=\'/cart/\';', text:['Empty Cart','Очистить Корзину','清空购物车'][langNo]},
