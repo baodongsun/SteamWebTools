@@ -5,14 +5,14 @@
 
 (function(){
   
-var langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/)[2];
+var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
 // [en,ru,cn][langNo]
-switch(steamLanguage){
+switch(steamLanguage && steamLanguage[2]){
     case 'russian' : langNo = 1; break;
     case 'schinese' : langNo = 2; break;
     case 'tchinese' : langNo = 2; break;
-    case 'traditional chinese' : langNo = 2; break; 
     case 'simplified chinese' : langNo = 2; break;
+    case 'traditional chinese' : langNo = 2; break; 
     default : langNo = 0;
 }
 
