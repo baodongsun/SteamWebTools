@@ -14,6 +14,8 @@ switch(steamLanguage){
     case 'russian' : langNo = 1; break;
     case 'schinese' : langNo = 2; break;
     case 'tchinese' : langNo = 2; break;
+    case 'traditional chinese' : langNo = 2; break; 
+    case 'simplified chinese' : langNo = 2; break;
     default : langNo = 0;
 }
 
@@ -38,7 +40,7 @@ function init(){
 }
 
 function pendingGiftInit(){
-	$('#tabcontent_pendinggifts > .pending_gifts_header:first-child').after('<div style="margin: 0px 0px 24px"><a class="btn_darkblue_white_innerfade btn_medium" href="#" onClick="acceptAllGifts();"><span>' + ['Accept all gifts','Сложить все в инвентарь','接受所有礼物'][langNo] + '</span></a></div>');
+	$('#tabcontent_pendinggifts > .pending_gifts_header:first-child').after('<div style="margin: 0px 0px 24px"><a class="btn_darkblue_white_innerfade btn_medium" href="#" onClick="acceptAllGifts();"><span>' + ['Accept All Gifts to Inventory)','Сложить все в инвентарь','接受所有礼物至库存'][langNo] + '</span></a></div>');
 	window.acceptAllGifts = function() {
 		var giftHolderz = $('div[id^=unpacked_gift_]');
 		var gifts = Array();
@@ -211,7 +213,7 @@ function inventoryPageInit(){
 		} else {
 			var amount = 1;
 			if(item._amount>1) {
-				amount =  parseInt(prompt(['Сколько выбрать? из todo ','Сколько выбрать? из ','选择数量, 最大'][langNo] + item._amount, item._amount)) || 1;
+				amount =  parseInt(prompt(['Amount, At Most: ','Сколько выбрать? из ','选择数量, 最大'][langNo] + item._amount, item._amount)) || 1;
 				if (amount>item._amount)
 					amount=item._amount;
 			}
@@ -271,7 +273,7 @@ function inventoryPageInit(){
 					item.descriptions = [];
 
 				item.descriptions.push({value:'ClassID = '+item.classid});
-				item.descriptions.push({type: 'html', value:'<a href="#" onclick="getSubid(event.target,\''+item.id+'\');return false">' + ['get','Получить','获取'][langNo] + ' SubscriptionID</a>'});
+				item.descriptions.push({type: 'html', value:'<a href="#" onclick="getSubid(event.target,\''+item.id+'\');return false">' + ['Get','Получить','获取'][langNo] + ' SubscriptionID</a>'});
 
 				if(!ajaxTarget.descriptions[item.classid])
 					ajaxTarget.descriptions[item.classid] = item.descriptions;
@@ -280,15 +282,15 @@ function inventoryPageInit(){
 				if(item.owner_actions) {
 					item.owner_actions.push({
 						link:'javascript:checkForSend("%assetid%")',
-						name:['Выбрать для отправки todo','Выбрать для отправки','选中当前礼物'][langNo]
+						name:['Select This Gift','Выбрать для отправки','选中这个礼物'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:sendChecked()',
-						name:['Отправить выбранные todo','Отправить выбранные','发送所有当前选中的礼物'][langNo]
+						name:['Send All Selected Gifts','Отправить выбранные','发送当前所有选中的礼物'][langNo]
 					});
 					item.owner_actions.push({
 						link:'javascript:loadGiftNote()',
-						name:['load Gift Note','Посмотреть','礼物备忘记录'][langNo]
+						name:['Load Gift Note','Посмотреть','礼物备忘记录'][langNo]
 					});
 				}
 			}
@@ -413,7 +415,7 @@ function inventoryPageInit(){
 	}
 
 
-	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>' + ['hideDupItems','Прятать дубликаты, показывая кол-во','隐藏重复的物品'][langNo];
+	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>' + ['Hide Duplicated Items','Прятать дубликаты, показывая кол-во','隐藏重复的物品'][langNo];
 	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLHideDup);
 
 	window.onchangehidedup = function(e){
@@ -439,7 +441,7 @@ function inventoryPageInit(){
 			window.$('market_sell_dialog_ok').stopObserving();
 			$('#market_sell_dialog_ok').unbind();
 			if(count>1) {
-				var amount =  parseInt(prompt(['Сколько продавать? из ','Сколько продавать? из ','出售数量,最大 '][langNo] + count, count)) || 1;
+				var amount =  parseInt(prompt(['Amount, At Most: ','Сколько продавать? из ','出售数量,最大 '][langNo] + count, count)) || 1;
 				if (amount>count)
 					amount=count;
 
@@ -520,51 +522,51 @@ function profileNewPageInit(){
 		{
 			href: 'http://www.steamtrades.com/user/id/'+steamid,
 			icon: 'http://www.steamtrades.com/favicon.ico',
-			text: ['Отзывы на SteamTrades.com','Искать на форумах SourceOP.com','到SourceOP.com查看'][langNo],
+			text: ['View in SteamTrades.com','Искать на форумах SourceOP.com','到SourceOP.com查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://backpack.tf/profiles/'+steamid,
 			icon: 'http://backpack.tf/favicon_440.ico',
-			text: ['Инвентарь Backpack.tf','Инвентарь Backpack.tf','到Backpack.tf查看'][langNo],
+			text: ['View in Backpack.tf','Инвентарь Backpack.tf','到Backpack.tf查看'][langNo],
 		},
 		{
 			href: 'http://tf2b.com/tf2/'+steamid,
 			icon: 'http://tf2b.com/favicon.ico',
-			text: ['Инвентарь TF2B.com','Инвентарь TF2B.com','到TF2B.com查看'][langNo],
+			text: ['View in TF2B.com','Инвентарь TF2B.com','到TF2B.com查看'][langNo],
 		},
 		{
 			href: 'http://tf2outpost.com/backpack/'+steamid,
 			icon: 'http://cdn.tf2outpost.com/img/favicon_440.ico',
-			text: ['Инвентарь TF2OutPost.com','Инвентарь TF2OutPost.com','到TF2OutPost查看背包'][langNo],
+			text: ['View in TF2OutPost.com','Инвентарь TF2OutPost.com','到TF2OutPost查看背包'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://tf2outpost.com/user/'+steamid,
 			icon: 'http://cdn.tf2outpost.com/img/favicon_440.ico',
-			text: ['Трэйды на TF2OutPost.com','Трэйды на TF2OutPost.com','TF2OutPost.com交易'][langNo],
+			text: ['View in TF2OutPost.com','Трэйды на TF2OutPost.com','TF2OutPost.com交易'][langNo],
 		},
 		{
 			href: 'http://dota2lounge.com/profile?id='+steamid,
 			icon: 'http://dota2lounge.com/favicon.ico',
-			text: ['Трэйды на Dota2Lounge.com','Трэйды на Dota2Lounge.com','到Dota2Lounge.com查看'][langNo],
+			text: ['View in Dota2Lounge.com','Трэйды на Dota2Lounge.com','到Dota2Lounge.com查看'][langNo],
 		},
 		{
 			href: 'http://csgolounge.com/profile?id='+steamid,
 			icon: 'http://csgolounge.com/favicon.ico',
-			text: ['Трэйды на CSGOLounge.com','Трэйды на CSGOLounge.com','到CSGOLounge.com查看'][langNo],
+			text: ['View in CSGOLounge.com','Трэйды на CSGOLounge.com','到CSGOLounge.com查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://steammoney.com/trade/user/'+steamid,
 			icon: 'http://steammoney.com/favicon.ico',
-			text: ['Инвентарь SteamMoney.com','Инвентарь SteamMoney.com','到SteamMoney.com查看'][langNo],
+			text: ['View in SteamMoney.com','Инвентарь SteamMoney.com','到SteamMoney.com查看'][langNo],
 		},
 		{
 			id:   'inv_spub',
 			href: 'http://steampub.ru/user/'+steamid,
 			icon: 'http://steampub.ru/favicon.ico',
-			text: ['Профиль на SteamPub.ru','Профиль на SteamPub.ru','到SteamPub.ru查看'][langNo],
+			text: ['View in SteamPub.ru','Профиль на SteamPub.ru','到SteamPub.ru查看'][langNo],
 		},
 		{hr:true}
 

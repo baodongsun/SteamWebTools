@@ -11,6 +11,8 @@ switch(steamLanguage){
     case 'russian' : langNo = 1; break;
     case 'schinese' : langNo = 2; break;
     case 'tchinese' : langNo = 2; break;
+    case 'traditional chinese' : langNo = 2; break; 
+    case 'simplified chinese' : langNo = 2; break;
     default : langNo = 0;
 }
 
@@ -19,7 +21,7 @@ function init() {
 
 	links = [
 		{href:'javascript:document.cookie=\'shoppingCartGID=0; path=/\';location.href=\'/cart/\';', text:['Empty Cart','Очистить Корзину','清空购物车'][langNo]},
-		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:['Fastbuy with Steam wallet','Быстро купить в инвентарь со Steam Wallet','使用steam钱包快速购买'][langNo]},
+		{href:'https://store.steampowered.com/checkout/?purchasetype=gift#fastbuy',blank:1, text:['Fastbuy with Steam Wallet','Быстро купить в инвентарь со Steam Wallet','使用steam钱包快速购买至库存'][langNo]},
 	];
 
 	el && el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
@@ -49,7 +51,7 @@ function createBlock(title, links){
 </div>'+link.text+'</a><br />'
 	}
 
-	out += ['Add SubID to cart','Добавить SubID\'ы в корзину','添加SubID到购物车'][langNo] + ': <form id="addtocartsubids" method="post"><input type="hidden" name="sessionid" value="'+decodeURIComponent(document.cookie.match(/(^|\s)sessionid=([^;]*)(;|$)/)[2])+'"><input type="hidden" name="action" value="add_to_cart"><input type="text" name="subids" placeholder="1, 2, 3"/><input type="submit" value="' + ['Add','Добавить','添加'][langNo] + '"></form></div></div></div>';
+	out += ['Add SubID to Cart','Добавить SubID\'ы в корзину','添加SubID到购物车'][langNo] + ': <form id="addtocartsubids" method="post"><input type="hidden" name="sessionid" value="'+decodeURIComponent(document.cookie.match(/(^|\s)sessionid=([^;]*)(;|$)/)[2])+'"><input type="hidden" name="action" value="add_to_cart"><input type="text" name="subids" placeholder="1, 2, 3"/><input type="submit" value="' + ['Add','Добавить','添加'][langNo] + '"></form></div></div></div>';
 
 	return out;
 }

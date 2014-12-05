@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @include http://store.steampowered.com/checkout/*
 // @include https://store.steampowered.com/checkout/*
 // ==/UserScript==
@@ -11,6 +11,8 @@ switch(steamLanguage){
     case 'russian' : langNo = 1; break;
     case 'schinese' : langNo = 2; break;
     case 'tchinese' : langNo = 2; break;
+    case 'traditional chinese' : langNo = 2; break; 
+    case 'simplified chinese' : langNo = 2; break;
     default : langNo = 0;
 }
 
