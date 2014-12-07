@@ -62,7 +62,7 @@ function gamecardsPageInit(){
 }
 
 function badgesPageInit(){
-	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>' + ['Show Only Badges With Card Drops Remaining','Показать с невыпавшими картами','仅显示还可获得卡片的徽章'][langNo] + '</span></div>');
+	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>' + ['Show Only Badges With Card Drops Remaining','Показать с невыпавшими картами','仅显示仍可掉落卡片的徽章'][langNo] + '</span></div>');
 	window.showWithDrop=function(){
 		$('.badge_row').filter(function(i,el){
 			return !($('a.btn_green_white_innerfade',el).length)
@@ -87,7 +87,7 @@ function SetRepBadges(selector){
 			color : '606060'
 		},
 		1:{
-			text : ['MIDDLEMAN','гарант','保证人'][langNo],
+			text : ['MIDDLEMAN','гарант','担保人'][langNo],
 			color : '5E931B'
 		},
 		2:{
@@ -511,7 +511,7 @@ function profileNewPageInit(){
 	var profilesLinks = [
 		{
 			href: 'http://steamrepcn.com/profiles/'+steamid,
-			icon: 'http://steamrep.com/favicon.ico',
+			icon: 'http://steamrepcn.com/favicon.ico',
 			text: ['View in SteamrepCN.com','Профиль на SteamrepCN.com','到SteamrepCN.com上查看'][langNo],
 		},
 		{
