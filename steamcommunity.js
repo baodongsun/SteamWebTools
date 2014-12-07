@@ -8,7 +8,7 @@
 
 (function(){
   
-var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
+var $ = window.jQuery, langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
 // [en,ru,cn][langNo]
 switch(steamLanguage && steamLanguage[2]){
     case 'russian' : langNo = 1; break;
@@ -62,7 +62,7 @@ function gamecardsPageInit(){
 }
 
 function badgesPageInit(){
-	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>' + ['showWithDrop','Показать с невыпавшими картами','显示剩余掉落'][langNo] + '</span></div>');
+	$('.badge_details_set_favorite').append('<div class="btn_grey_black btn_small_thin" onclick="showWithDrop()"><span>' + ['Show Only Badges With Card Drops Remaining','Показать с невыпавшими картами','仅显示还可获得卡片的徽章'][langNo] + '</span></div>');
 	window.showWithDrop=function(){
 		$('.badge_row').filter(function(i,el){
 			return !($('a.btn_green_white_innerfade',el).length)
@@ -83,23 +83,23 @@ function SetRepBadges(selector){
 
 	var badges = {
 		0:{
-			text : ['unknown','неизвестен','未知'][langNo],
+			text : ['Unknown','неизвестен','未知'][langNo],
 			color : '606060'
 		},
 		1:{
-			text : ['гарант todo','гарант','保证'][langNo],
+			text : ['MIDDLEMAN','гарант','保证人'][langNo],
 			color : '5E931B'
 		},
 		2:{
-			text : ['white-listed','в белом списке','在白名单'][langNo],
+			text : ['SCAMMER','в белом списке','骗子'][langNo],
 			color : '247E9E'
 		},
 		3:{
-			text : ['black-listed','в черном списке','在黑名单'][langNo],
+			text : ['TRUSTED SELLER','в черном списке','可信'][langNo],
 			color : '9E2424'
 		},
 		4:{
-			text : ['suspicious','подозрительный','可疑'][langNo],
+			text : ['CAUTION','подозрительный','可疑'][langNo],
 			color : 'B47200'
 		},
 		error:{
@@ -510,6 +510,11 @@ function profileNewPageInit(){
 
 	var profilesLinks = [
 		{
+			href: 'http://steamrepcn.com/profiles/'+steamid,
+			icon: 'http://steamrep.com/favicon.ico',
+			text: ['View in SteamrepCN.com','Профиль на SteamrepCN.com','到SteamrepCN.com上查看'][langNo],
+		},
+		{
 			href: 'http://forums.steamrep.com/search/search?keywords='+steamid,
 			icon: 'http://steamrep.com/favicon.ico',
 			text: ['Search in SteamRep.com','Искать на форумах SteamRep.com','在SteamRep.com上搜索'][langNo],
@@ -522,18 +527,18 @@ function profileNewPageInit(){
 		{
 			href: 'http://www.steamtrades.com/user/id/'+steamid,
 			icon: 'http://www.steamtrades.com/favicon.ico',
-			text: ['View in SteamTrades.com','Искать на форумах SourceOP.com','到SourceOP.com查看'][langNo],
+			text: ['View in SteamTrades.com','Инвентарь SteamTrades.com','到SteamTrades.com上查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://backpack.tf/profiles/'+steamid,
 			icon: 'http://backpack.tf/favicon_440.ico',
-			text: ['View in Backpack.tf','Инвентарь Backpack.tf','到Backpack.tf查看'][langNo],
+			text: ['View in Backpack.tf','Инвентарь Backpack.tf','到Backpack.tf上查看'][langNo],
 		},
 		{
 			href: 'http://tf2b.com/tf2/'+steamid,
 			icon: 'http://tf2b.com/favicon.ico',
-			text: ['View in TF2B.com','Инвентарь TF2B.com','到TF2B.com查看'][langNo],
+			text: ['View in TF2B.com','Инвентарь TF2B.com','到TF2B.com上查看'][langNo],
 		},
 		{
 			href: 'http://tf2outpost.com/backpack/'+steamid,
@@ -549,29 +554,26 @@ function profileNewPageInit(){
 		{
 			href: 'http://dota2lounge.com/profile?id='+steamid,
 			icon: 'http://dota2lounge.com/favicon.ico',
-			text: ['View in Dota2Lounge.com','Трэйды на Dota2Lounge.com','到Dota2Lounge.com查看'][langNo],
+			text: ['View in Dota2Lounge.com','Трэйды на Dota2Lounge.com','到Dota2Lounge.com上查看'][langNo],
 		},
 		{
 			href: 'http://csgolounge.com/profile?id='+steamid,
 			icon: 'http://csgolounge.com/favicon.ico',
-			text: ['View in CSGOLounge.com','Трэйды на CSGOLounge.com','到CSGOLounge.com查看'][langNo],
+			text: ['View in CSGOLounge.com','Трэйды на CSGOLounge.com','到CSGOLounge.com上查看'][langNo],
 		},
 		{hr:true},
 		{
 			href: 'http://steammoney.com/trade/user/'+steamid,
 			icon: 'http://steammoney.com/favicon.ico',
-			text: ['View in SteamMoney.com','Инвентарь SteamMoney.com','到SteamMoney.com查看'][langNo],
+			text: ['View in SteamMoney.com','Инвентарь SteamMoney.com','到SteamMoney.com上查看'][langNo],
 		},
 		{
 			id:   'inv_spub',
 			href: 'http://steampub.ru/user/'+steamid,
 			icon: 'http://steampub.ru/favicon.ico',
-			text: ['View in SteamPub.ru','Профиль на SteamPub.ru','到SteamPub.ru查看'][langNo],
-		},
-		{hr:true}
-
+			text: ['View in SteamPub.ru','Профиль на SteamPub.ru','到SteamPub.ru上查看'][langNo],
+		}
 	];
-
 
 	// Styles
 	document.body.insertAdjacentHTML("afterBegin",
@@ -650,10 +652,10 @@ function profileNewPageInit(){
 
 	}
 	try {
-		document.querySelector('#profile_action_dropdown>.popup_body.popup_menu').insertAdjacentHTML("afterBegin", out);
+		document.querySelector('#profile_action_dropdown>.popup_body.popup_menu').insertAdjacentHTML("beforeEnd", out);
 	} catch(err) {
 		// "More" button for self profile
-		$('.profile_header_actions').append('<span class="btn_profile_action btn_medium" onclick="ShowMenu(this,\'profile_action_dropdown\',\'right\')"><span>More <img src="http://cdn.steamcommunity.com/public/images/profile/profile_action_dropdown.png"/></span></span><div class="popup_block" id="profile_action_dropdown" style="visibility:visible;display:none"><div class="popup_body popup_menu">'+out+'</div></div>')
+		$('.profile_header_actions').append('<span class="btn_profile_action btn_medium" onclick="ShowMenu(this,\'profile_action_dropdown\',\'right\')"><span>' + ['More','More','更多'][langNo] + ' <img src="http://cdn.steamcommunity.com/public/images/profile/profile_action_dropdown.png"/></span></span><div class="popup_block" id="profile_action_dropdown" style="visibility:visible;display:none"><div class="popup_body popup_menu">'+out+'</div></div>')
 	}
 
 

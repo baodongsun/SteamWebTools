@@ -42,7 +42,7 @@ function init() {
 			'<br/><br/>' + [
 				'It is available to input more than one email address, one email per row, if the number of the gifts is not more than the number of email, the gifts will be sent in order, otherwise the extra gifts will be sent to the last email address',
 				'Если хотите отправить гифты на разыне Email введите их ниже по одному на строку. Гифты будут отправленны по порядку. Если гифтов больше чем адресов, оставшиеся гифты будут отправлены на последний адрес',
-				'可以输入多个邮件地址, 每个一行, 如果要发送的礼物对应邮件地址低于每行一个, 礼物将按顺序被发送, 如果礼物数量超过邮件地址数量，超出的礼物将被发送到最后一个邮件地址.'
+				'可以输入多个邮件地址, 每个一行, 如果要发送的礼物对应邮件地址低于每行一个, 礼物将按顺序被发送, 如果礼物数量超过邮件地址数量，超出的礼物将被发送到最后一个邮件地址.(注意: 多份相同的礼物无法发送到同一邮箱地址)'
 			][langNo] + '<br/><textarea id="emails" rows=3></textarea>'
 		);
 

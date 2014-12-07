@@ -5,7 +5,7 @@
 
 (function(){
   
-var langNo, $ = window.jQuery, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
+var $ = window.jQuery, langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
 // [en,ru,cn][langNo]
 switch(steamLanguage && steamLanguage[2]){
     case 'russian' : langNo = 1; break;
