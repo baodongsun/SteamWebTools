@@ -150,18 +150,46 @@ function init() {
 
 
 		links = [
-			{href:'http://steamdb.info/'+itemType+'/'+itemId+'/', icon:'http://steamdb.info/favicon.ico', text:['View in SteamDB.info','Посмотреть в SteamDB.info','在SteamDB.info上查看'][langNo]},
-			{href:'http://steamgamesales.com/'+itemType+'/'+itemId, icon:'http://steamgamesales.com/favicon.ico', text:['Take a look at SteamGameSales.com','Посмотреть на SteamGameSales.com','到SteamGameSales.com上看看'][langNo]},
-			{href:'http://www.steamprices.com/'+_cc.curCC.toLowerCase()+'/'+itemType+'/'+itemId, icon:'http://www.steamprices.com/favicon.ico', text:['Take a look at SteamPrices.com','Посмотреть на SteamPrices.com','到SteamPrices.com上看看'][langNo]},
-			{href:'http://plati.ru/asp/find.asp?agent=111350&searchstr='+gamename, icon:'http://plati.ru/favicon.ico', text:['Search in Plati.ru','Искать на Plati.ru','在Plati.ru上搜索'][langNo]},
-			{href:'http://steampub.ru/search/'+gamename, icon:'http://steampub.ru/favicon.ico', text:['Search in SteamPub.ru','Искать на SteamPub.ru','在SteamPub.ru上搜索'][langNo]},
+			{
+				href:'http://steamdb.info/'+itemType+'/'+itemId+'/', 
+				icon:'http://steamdb.info/favicon.ico', 
+				text:['View in SteamDB.info','Посмотреть в SteamDB.info','在SteamDB.info上查看'][langNo]
+			},
+			{
+				href:'http://steamgamesales.com/'+itemType+'/'+itemId, 
+				icon:'http://steamgamesales.com/favicon.ico', 
+				text:['Take a look at SteamGameSales.com','Посмотреть на SteamGameSales.com','到SteamGameSales.com上看看'][langNo]
+			},
+			{
+				href:'http://www.steamprices.com/'+_cc.curCC.toLowerCase()+'/'+itemType+'/'+itemId, 
+				icon:'http://www.steamprices.com/favicon.ico', 
+				text:['Take a look at SteamPrices.com','Посмотреть на SteamPrices.com','到SteamPrices.com上看看'][langNo]
+			},
+			{
+				href:'http://plati.ru/asp/find.asp?agent=111350&searchstr='+gamename, 
+				icon:'http://plati.ru/favicon.ico', 
+				text:['Search in Plati.ru','Искать на Plati.ru','在Plati.ru上搜索'][langNo]
+			},
+			{
+				href:'http://steampub.ru/search/'+gamename, 
+				icon:'http://steampub.ru/favicon.ico', 
+				text:['Search in SteamPub.ru','Искать на SteamPub.ru','在SteamPub.ru上搜索'][langNo]
+			},
 		];
 
 		if(itemType=='app'){
 			links.push(
-				{href:'http://steamcommunity.com/my/gamecards/'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards from this Game','Посмотреть мои карты этой игры','查看此游戏的卡片'][langNo]},
-				{href:'http://www.steamcardexchange.net/index.php?gamepage-appid-'+itemId, icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', text:['View Gamecards in Steamcardexchange.net','View Gamecards in Steamcardexchange.net','在Steamcardexchange.net上查看卡片'][langNo]}
-			)
+				{
+					href:'http://steamcommunity.com/my/gamecards/'+itemId, 
+					icon:'http://cdn.steamcommunity.com/public/images/skin_1/notification_icon_guide.png', 
+					text:['View Gamecards from this Game','Посмотреть мои карты этой игры','查看此游戏的卡片'][langNo]
+				},
+				{
+					href:'http://www.steamcardexchange.net/index.php?gamepage-appid-'+itemId, 
+					icon:'http://www.steamcardexchange.net/include/design/img/favicon_blue_small.png', 
+					text:['View Gamecards in Steamcardexchange.net','View Gamecards in Steamcardexchange.net','在Steamcardexchange.net上查看卡片'][langNo]
+				}
+			);
 		}
 
 		el.insertAdjacentHTML('afterBegin', createBlock('Steam Web Tools', links));
