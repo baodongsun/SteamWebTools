@@ -442,7 +442,7 @@ function inventoryPageInit(){
         cfm = confirm('所有' + 
                       (isltd_price ? ' 市场价格不高于' + ltd_price : '') + 
                       (isltd_goo ? ' 宝石价值不低于' + ltd_goo : '') + 
-                      '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.6秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查询粉碎记录 \n\n是否确认');
+                      '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查询粉碎记录 \n\n是否确认');
       if(!cfm) return false;
 
       var timer_push, timer_pop, bgs_ems = [], items_stack = [], 
@@ -459,6 +459,7 @@ function inventoryPageInit(){
           var _goovalue = data['goo_value'];
           if(!_goovalue){
             console.log(item['market_hash_name'] + '不能被粉碎');
+            isltd_goo ? count('swt_num_checkfailed') : count('swt_num_grindfailed');
             return false;
           }
           if(isltd_goo && _goovalue < ltd_goo) return;
