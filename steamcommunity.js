@@ -486,7 +486,7 @@ function inventoryPageInit(){
               console.log('%c ' + _result, "background: #000000;color: #eeee11");
             }
           ).fail(function(){ count('swt_num_grindfailed'); }).always(function(){
-            if( bgs_ems.length === 0 && items_stack ===0 ) {
+            if( bgs_ems.length === 0 && items_stack.length === 0 ) {
               console.log('粉碎完成');
             }
           });
