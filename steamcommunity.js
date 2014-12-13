@@ -414,6 +414,7 @@ function inventoryPageInit(){
 		return SelectInventoryFromUser_old.apply(this, arguments);
 	}
 
+/*** goooooooooooooo ***/
     var HTMLGooBtn = '<button id="swt_goo_btn" onclick="window.grindallitems()">批量粉碎背景和表情</button>';
 	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLGooBtn);
     var HTMLGooInfo = '<div id="swt_goo_info"> </div>';
@@ -421,7 +422,7 @@ function inventoryPageInit(){
   
     //grind all items into goo
     window.grindallitems = function(){
-      var ltd_price_str = prompt('输入限定的市场最高价, 只能输入数字 \
+      var ltd_price_str = prompt('请输入限定的市场最高价, 只能输入数字 \
       \n\n只有市场价格不高于此价格的社区物品 (表情和背景,不包含卡片) 将被粉碎成宝石, \
       如果输入为0则不做限定, 货币单位为steam钱包对应国家的货币', '0.00');
       if(ltd_price_str === null) return false;
@@ -445,7 +446,7 @@ function inventoryPageInit(){
                       '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查看物品信息 \n\n是否确认');
       if(!cfm) return false;
 
-      var timer_push, timer_pop, bgs_ems = [], items_stack = [], finished = false,
+      var timer_push, timer_pop, bgs_ems = [], items_stack = [], receivedgems_total = 0, finished = false,
         url_goovalue = window.g_strProfileURL + '/ajaxgetgoovalue/' + '?contextid=6&sessionid=' + window.g_sessionID + '&appid=';
       
       
@@ -480,11 +481,12 @@ function inventoryPageInit(){
                 return;
               }
               count('swt_num_grindsuccess');
+              receivedgems_total += Number(data['goo_value_received ']);
               var _result = item['market_hash_name'] + ' 已被粉碎, 获得 ' + 
                             data['goo_value_received '] + ' 个宝石, 当前共拥有 ' + 
                             data['goo_value_total'];
               document.getElementById('swt_item_recycled').innerHTML = _result;
-              console.log('%c ' + _result, "background: #000000;color: #eeee11");
+              console.log('%c ' + _result, 'background: #000000;color: #eeee11');
             }
           ).fail(function(){
             count('swt_num_grindfailed'); 
@@ -525,8 +527,11 @@ function inventoryPageInit(){
         items_stack.length > 0 && grind(items_stack.pop());
         if(finished){
           cancel_grind();
-          alert('粉碎完成');
-          console.log('粉碎完成');
+          var _msg = '粉碎完成, \n共粉碎了' + 
+            document.getElementById('swt_num_grindsuccess').innerHTML + 
+            '个物品, 获得了' + receivedgems_total + '个宝石';
+          alert(_msg);
+          console.log('%c' + _msg, 'background: #000000;color: #eeee11');
         } 
       }
 
@@ -586,7 +591,7 @@ function inventoryPageInit(){
         }
       });
     }//window.grindallitems
-
+/*** goooooooooooooo ***/
 
 	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>' + ['Hide Duplicated Items','Прятать дубликаты, показывая кол-во','隐藏重复的物品'][langNo];
 	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLHideDup);
