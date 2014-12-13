@@ -442,7 +442,7 @@ function inventoryPageInit(){
         cfm = confirm('所有' + 
                       (isltd_price ? ' 市场价格不高于' + ltd_price : '') + 
                       (isltd_goo ? ' 宝石价值不低于' + ltd_goo : '') + 
-                      '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查询粉碎记录 \n\n是否确认');
+                      '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查看物品信息 \n\n是否确认');
       if(!cfm) return false;
 
       var timer_push, timer_pop, bgs_ems = [], items_stack = [], 
@@ -544,7 +544,7 @@ function inventoryPageInit(){
         for (var i in _items) {
           var _item = _items[i];
           var _desc = _descs[ _item['classid'] + '_' + _item['instanceid'] ];
-          if (!/(Trading Card|Booster Pack|\u96c6\u6362\u5f0f\u5361\u724c|\u4ea4\u63db\u5361\u7247|\u8865\u5145\u5305|\u64f4\u5145\u5305)/.test(_desc['type'])) {
+          if (!/(Trading Card|Booster Pack|Steam Gems|\u96c6\u6362\u5f0f\u5361\u724c|\u4ea4\u63db\u5361\u7247|\u8865\u5145\u5305|\u64f4\u5145\u5305)/.test(_desc['type'])) {
             _item['appid'] = _desc['app_data']['appid'];
             _item['market_hash_name'] = _desc['market_hash_name'];
             bgs_ems.push(_item);
