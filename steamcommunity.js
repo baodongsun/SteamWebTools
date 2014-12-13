@@ -8,7 +8,7 @@
 
 (function(){
   
-var $ = window.jQuery, langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)(;|$)/);
+var $ = window.jQuery, langNo, steamLanguage = document.cookie.match(/(^|\s)Steam_Language=([^;]*)/);
 // [en,ru,cn][langNo]
 switch(steamLanguage && steamLanguage[2]){
     case 'russian' : langNo = 1; break;
@@ -413,6 +413,169 @@ function inventoryPageInit(){
 
 		return SelectInventoryFromUser_old.apply(this, arguments);
 	}
+
+    var HTMLGooBtn = '<button id="swt_goo_btn" onclick="window.grindallitems()">批量粉碎背景和表情</button>';
+	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLGooBtn);
+    var HTMLGooInfo = '<div id="swt_goo_info"> </div>';
+	document.getElementById('inventory_pagecontrols').insertAdjacentHTML("beforeBegin", HTMLGooInfo);
+  
+    //grind all items into goo
+    window.grindallitems = function(){
+      var ltd_price_str = prompt('输入限定的市场最高价, 只能输入数字 \
+      \n\n只有市场价格不高于此价格的社区物品 (表情和背景,不包含卡片) 将被粉碎成宝石, \
+      如果输入为0则不做限定, 货币单位为steam钱包对应国家的货币', '0.00');
+      if(ltd_price_str === null) return false;
+      if(isNaN(ltd_price_str) || ltd_price_str.replace(/(^\s*)|(\s*$)/g,"")===""){
+        alert('只能输入数字');
+        return false;
+      }
+
+      var ltd_goo_str = prompt('请输入限定的物品的最低宝石价值 (物品被粉碎后获得的宝石数量), \
+      只能输入数字 \n\n只有宝石价值"不低于此数值"的物品将会被粉碎, 如果输入为0则不做限定', 10);
+      if(ltd_goo_str === null) return false; 
+      if(isNaN(ltd_goo_str) || ltd_goo_str.replace(/(^\s*)|(\s*$)/g,"")===""){
+        alert('只能输入数字');
+        return false;
+      }
+
+      var ltd_price = Number(ltd_price_str), ltd_goo = Number(ltd_goo_str), isltd_price = !!ltd_price, isltd_goo = !!ltd_goo,
+        cfm = confirm('所有' + 
+                      (isltd_price ? ' 市场价格不高于' + ltd_price : '') + 
+                      (isltd_goo ? ' 宝石价值不低于' + ltd_goo : '') + 
+                      '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.6秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查询粉碎记录 \n\n是否确认');
+      if(!cfm) return false;
+
+      var timer_push, timer_pop, bgs_ems = [], items_stack = [], 
+        url_goovalue = window.g_strProfileURL + '/ajaxgetgoovalue/' + '?contextid=6&sessionid=' + window.g_sessionID + '&appid=';
+      
+      
+      function count(id){
+        var ele = document.getElementById(id);
+        ele.innerHTML = Number(ele.innerHTML) + 1;
+      }
+      function grind(item) {
+        if(!item) return;
+        jQuery.get(url_goovalue + item.appid + '&assetid=' + item.id, function(data){
+          var _goovalue = data['goo_value'];
+          if(!_goovalue){
+            console.log(item['market_hash_name'] + '不能被粉碎');
+            return false;
+          }
+          if(isltd_goo && _goovalue < ltd_goo) return;
+          console.log('准备粉碎 ' + item['market_hash_name']);
+          jQuery.post(
+            window.g_strProfileURL + '/ajaxgrindintogoo/', 
+            {
+              sessionid : window.g_sessionID,
+              appid : item.appid,
+              assetid : item.id,
+              contextid : 6,
+              goo_value_expected : _goovalue
+            },
+            function(data){
+              if(data.success !== 1){
+                console.log(item['market_hash_name'] + '粉碎失败');
+                count('swt_num_grindfailed');
+                return;
+              }
+              count('swt_num_grindsuccess');
+              var _result = item['market_hash_name'] + ' 已被粉碎, 获得 ' + 
+                            data['goo_value_received '] + ' 个宝石, 当前共拥有 ' + 
+                            data['goo_value_total'];
+              document.getElementById('swt_item_recycled').innerHTML = _result;
+              console.log('%c ' + _result, "background: #000000;color: #eeee11");
+            }
+          ).fail(function(){ count('swt_num_grindfailed'); }).always(function(){
+            if( bgs_ems.length === 0 && items_stack ===0 ) {
+              console.log('粉碎完成');
+            }
+          });
+        }).fail(function(){ isltd_goo ? count('swt_num_checkfailed') : count('swt_num_grindfailed'); });;
+      }
+
+      function handler_push() {
+        if (bgs_ems.length === 0) {
+          clearInterval(timer_push);
+          return;
+        }
+        var _item = bgs_ems.pop();
+        document.getElementById('swt_num_tocheck').innerHTML = bgs_ems.length;
+        document.getElementById('swt_num_togrind').innerHTML = items_stack.length;
+        jQuery.get(
+          'http://steamcommunity.com/market/priceoverview/?country=' + window.g_strCountryCode + 
+          '&currency=1&appid=753&market_hash_name=' + _item['market_hash_name'], 
+          function (data) {
+            if(!data['lowest_price']){
+              count('swt_num_checkfailed');
+              return;
+            }
+            var _price =  data['lowest_price'].match(/(&.*;|\S)([\.\d]*)/);
+            if (_price && _price[2] <= ltd_price) {
+              items_stack.push(_item);
+            }
+          }
+        ).fail(function(){ count('swt_num_checkfailed'); });
+      }
+      function handler_pop(items) {
+        items_stack.length > 0 && grind(items_stack.pop());
+      }
+
+      function cancel_grind(){
+        timer_push && clearInterval(timer_push);
+        timer_pop && clearInterval(timer_pop);
+        document.getElementById('swt_goo_btn').innerHTML = '批量粉碎背景和表情';
+        document.getElementById('swt_goo_btn').onclick = window.grindallitems;
+      };
+
+      SetCookie('Steam_Language', 'english', 0.0001);
+      document.getElementById('swt_goo_info').innerHTML = '';
+      document.getElementById('swt_goo_btn').innerHTML = '正在获取库存数据...';
+      document.getElementById('swt_goo_btn').onclick = null;
+      
+      jQuery.get(window.g_strInventoryLoadURL + '753/6/', function (data) {
+        if(data.success !== true){
+          alert('获取库存数据失败');
+          return false;
+        }
+        
+        _items = data['rgInventory'];
+        _descs = data['rgDescriptions'];
+        for (var i in _items) {
+          var _item = _items[i];
+          var _desc = _descs[ _item['classid'] + '_' + _item['instanceid'] ];
+          if (!/(Trading Card|Booster Pack|\u96c6\u6362\u5f0f\u5361\u724c|\u4ea4\u63db\u5361\u7247|\u8865\u5145\u5305|\u64f4\u5145\u5305)/.test(_desc['type'])) {
+            _item['appid'] = _desc['app_data']['appid'];
+            _item['market_hash_name'] = _desc['market_hash_name'];
+            bgs_ems.push(_item);
+          }
+        }
+        
+        if(bgs_ems.length === 0){
+          cancel_grind();
+          alert('没有可粉碎的物品');
+          return;
+        }
+        
+        var HTMLgooinfo = '可碎粉物品总数: <span id="swt_num_total">' + 
+            bgs_ems.length + '</span><br> 待检查物品数量: <span id="swt_num_tocheck">' + 
+            bgs_ems.length + '</span> | 检查失败物品数量: <span id="swt_num_checkfailed">' + 
+            '0</span><br> 待粉碎数量: <span id="swt_num_togrind">' + 
+            '0</span><br> 成功粉碎数量: <span id="swt_num_grindsuccess">' + 
+            '0</span> | 粉碎失败数量: <span id="swt_num_grindfailed">' + 
+            '0</span><br> 最新信息: <span id="swt_item_recycled">...</span>';
+        document.getElementById('swt_goo_info').innerHTML = HTMLgooinfo;
+        document.getElementById('swt_goo_btn').innerHTML = '粉碎中..点击取消';
+        document.getElementById('swt_goo_btn').onclick = cancel_grind;
+        if(isltd_price){
+          timer_push = setInterval(handler_push, 500);
+          timer_pop = setInterval(handler_pop, 800);
+        }else{
+          items_stack = bgs_ems.slice(0);
+          bgs_ems = [];
+          timer_pop = setInterval(handler_pop, 800);
+        }
+      });
+    }//window.grindallitems
 
 
 	var HTMLHideDup = '<input type="checkbox" name="hidedup" onchange="window.onchangehidedup(event)" '+((window.localStorage.hideDupItems)?'checked="true"':'')+'/>' + ['Hide Duplicated Items','Прятать дубликаты, показывая кол-во','隐藏重复的物品'][langNo];
