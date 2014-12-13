@@ -445,7 +445,7 @@ function inventoryPageInit(){
                       '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查看物品信息 \n\n是否确认');
       if(!cfm) return false;
 
-      var timer_push, timer_pop, bgs_ems = [], items_stack = [], 
+      var timer_push, timer_pop, bgs_ems = [], items_stack = [], finished = false,
         url_goovalue = window.g_strProfileURL + '/ajaxgetgoovalue/' + '?contextid=6&sessionid=' + window.g_sessionID + '&appid=';
       
       
@@ -486,12 +486,16 @@ function inventoryPageInit(){
               document.getElementById('swt_item_recycled').innerHTML = _result;
               console.log('%c ' + _result, "background: #000000;color: #eeee11");
             }
-          ).fail(function(){ count('swt_num_grindfailed'); }).always(function(){
-            if( bgs_ems.length === 0 && items_stack.length === 0 ) {
-              console.log('粉碎完成');
-            }
+          ).fail(function(){
+            count('swt_num_grindfailed'); 
+          }).always(function(){ 
+            bgs_ems.length === 0 && items_stack.length === 0 && (finished = true); 
           });
-        }).fail(function(){ isltd_goo ? count('swt_num_checkfailed') : count('swt_num_grindfailed'); });;
+        }).fail(function(){
+          isltd_goo ? count('swt_num_checkfailed') : count('swt_num_grindfailed'); 
+        }).always(function(){
+          bgs_ems.length === 0 && items_stack.length === 0 && (finished = true); 
+        });
       }
 
       function handler_push() {
@@ -519,6 +523,11 @@ function inventoryPageInit(){
       }
       function handler_pop(items) {
         items_stack.length > 0 && grind(items_stack.pop());
+        if(finished){
+          cancel_grind();
+          alert('粉碎完成');
+          console.log('粉碎完成');
+        } 
       }
 
       function cancel_grind(){
