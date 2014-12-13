@@ -507,8 +507,6 @@ function inventoryPageInit(){
           return;
         }
         var _item = bgs_ems.pop();
-        document.getElementById('swt_num_tocheck').innerHTML = bgs_ems.length;
-        document.getElementById('swt_num_togrind').innerHTML = items_stack.length;
         jQuery.get(
           'http://steamcommunity.com/market/priceoverview/?country=' + window.g_strCountryCode + 
           '&currency=1&appid=753&market_hash_name=' + _item['market_hash_name'], 
@@ -526,12 +524,14 @@ function inventoryPageInit(){
       }
       function handler_pop(items) {
         items_stack.length > 0 && grind(items_stack.pop());
+        document.getElementById('swt_num_tocheck').innerHTML = bgs_ems.length;
+        document.getElementById('swt_num_togrind').innerHTML = items_stack.length;
         if(finished){
-          var _msg = '粉碎完成, \n共粉碎了' + 
+          var _msg = '粉碎完成, \n共粉碎' + 
             document.getElementById('swt_num_grindsuccess').innerHTML + 
-            '个物品, 获得了' + receivedgems_total + '个宝石';
-          alert(_msg);
+            '个物品, 共获得' + receivedgems_total + '个宝石';
           console.log('%c' + _msg, 'background: #000000;color: #eeee11');
+          alert(_msg);
           setTimeout('cancel_grind()', 0);
         } 
       }
