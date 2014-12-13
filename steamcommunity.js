@@ -489,6 +489,7 @@ function inventoryPageInit(){
               console.log('%c ' + _result, 'background: #000000;color: #eeee11');
             }
           ).fail(function(){
+            console.log(item['market_hash_name'] + '粉碎失败');
             count('swt_num_grindfailed'); 
           }).always(function(){ 
             bgs_ems.length === 0 && items_stack.length === 0 && (finished = true); 
@@ -526,12 +527,12 @@ function inventoryPageInit(){
       function handler_pop(items) {
         items_stack.length > 0 && grind(items_stack.pop());
         if(finished){
-          cancel_grind();
           var _msg = '粉碎完成, \n共粉碎了' + 
             document.getElementById('swt_num_grindsuccess').innerHTML + 
             '个物品, 获得了' + receivedgems_total + '个宝石';
           alert(_msg);
           console.log('%c' + _msg, 'background: #000000;color: #eeee11');
+          setTimeout('cancel_grind()', 0);
         } 
       }
 
@@ -575,7 +576,7 @@ function inventoryPageInit(){
             bgs_ems.length + '</span><br> 待检查物品数量: <span id="swt_num_tocheck">' + 
             bgs_ems.length + '</span> | 检查失败物品数量: <span id="swt_num_checkfailed">' + 
             '0</span><br> 待粉碎数量: <span id="swt_num_togrind">' + 
-            '0</span><br> 成功粉碎数量: <span id="swt_num_grindsuccess">' + 
+            '0</span> | 成功粉碎数量: <span id="swt_num_grindsuccess">' + 
             '0</span> | 粉碎失败数量: <span id="swt_num_grindfailed">' + 
             '0</span><br> 最新信息: <span id="swt_item_recycled">...</span>';
         document.getElementById('swt_goo_info').innerHTML = HTMLgooinfo;
