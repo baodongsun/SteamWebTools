@@ -562,9 +562,10 @@ function inventoryPageInit(){
             return;
           }
           
-          inv_datas.forEach(function(v,i){
-            _items = v['rgInventory'];
-            _descs = v['rgDescriptions'];
+          while(inv_datas.length !== 0){
+            var _data = inv_datas.pop();
+            _items = _data['rgInventory'];
+            _descs = _data['rgDescriptions'];
             for (var i in _items) {
               var _item = _items[i];
               var _desc = _descs[ _item['classid'] + '_' + _item['instanceid'] ];
@@ -574,8 +575,7 @@ function inventoryPageInit(){
                 bgs_ems.push(_item);
               }
             }
-          
-          });
+          }
 
           if(bgs_ems.length === 0){
             cancel_grind();
