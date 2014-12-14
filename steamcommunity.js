@@ -446,7 +446,8 @@ function inventoryPageInit(){
                       '的表情和背景将被粉碎成宝石, \n开始后速度约为每0.5秒检查一个物品, 检查通过的物品会被粉碎, 可在浏览器控制台查看物品信息 \n\n是否确认');
       if(!cfm) return false;
 
-      var timer_push, timer_pop, bgs_ems = [], items_stack = [], receivedgems_total = 0, finished = false,
+      var timer_push, timer_pop, bgs_ems = [], items_stack = [], 
+        receivedgems_total = 0, finished = false, inv_datas = [],
         url_goovalue = window.g_strProfileURL + '/ajaxgetgoovalue/' + '?contextid=6&sessionid=' + window.g_sessionID + '&appid=';
       
       
@@ -548,8 +549,7 @@ function inventoryPageInit(){
       document.getElementById('swt_goo_btn').innerHTML = '正在获取库存数据...';
       document.getElementById('swt_goo_btn').onclick = null;
       
-      var inv_datas = [];
-      function get_inv(start){
+      (function get_inv(start){
         var _pram = start ? ('?start=' + start) : '';
         jQuery.get(window.g_strInventoryLoadURL + '753/6/' + _pram, function(data){
           if(data.success !== true){
@@ -602,9 +602,8 @@ function inventoryPageInit(){
             timer_pop = setInterval(handler_pop, 800);
           }
         });
-      
-      
-      }
+        
+      }());
     }//window.grindallitems
 /*** goooooooooooooo ***/
 
